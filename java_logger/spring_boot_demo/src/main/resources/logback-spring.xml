@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+
+    <property name="pattern" value="%d [%thread] %-5level %logger{50} - %msg%n"></property>
+
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <target>System.err</target>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <springProfile name="dev">
+                <pattern>${pattern}</pattern>
+            </springProfile>
+            <springProfile name="pro">
+                <pattern>%d{yyyy-MM-dd} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            </springProfile>
+        </encoder>
+    </appender>
+
+    <logger name="com.beloved" level="debug" additivity="false">
+        <appender-ref ref="console" />
+    </logger>
+</configuration>

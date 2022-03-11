@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    status="warn"   日志框架本身的输出日志级别
+    monitorInterval="5"     自动加载配置文件的间隔时间，不低于 5s
+-->
+<Configuration status="warn" monitorInterval="5">
+
+    <!--
+        集中属性配置
+        使用时：${name}
+    -->
+    <properties>
+        <property name="LOG_HOME">D://logs/Demo/java_logger/log4j2_demo</property>
+    </properties>
+
+    <!-- 日志处理器 -->
+    <Appenders>
+        <!--
+            控制台输出
+                target：
+                    SYSTEM_OUT
+                    SYSTEM_ERR
+        -->
+        <Console name="console" target="SYSTEM_OUT">
+            <!-- 输出日志的格式 -->
+            <PatternLayout pattern="%d [%p] - [%l] - %m%n"/>
+        </Console>
+
+        <!--
+            日志文件输出
+                fileName：文件存放路径
+        -->
+        <File name="file" fileName="${LOG_HOME}/log4j2.log">
+            <!-- 输出日志的格式 -->
+            <PatternLayout charset="UTF-8" pattern="%d %t [%p] - [%l] - %m%n"/>
+        </File>
+
+        <!-- 随机读写流日志文件输出 -->
+        <RandomAccessFile name="accessFile" fileName="${LOG_HOME}/access_log4j2.log">
+            <!-- 输出日志的格式 -->
+            <PatternLayout charset="UTF-8" pattern="%d %t [%p] - [%l] - %m%n"/>
+        </RandomAccessFile>
+
+        <!-- 按照规则拆分日志文件 -->
+        <RollingFile name="rollFile" fileName="${LOG_HOME}/roll_log4j2.log"
+            filePattern="${LOG_HOME}/%d{yyyy-MM-dd-HH-mm-ss}/roll_log4j2.%i.log" >
+            <!-- 只输出level及以下级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!-- 输出日志的格式 -->
+            <PatternLayout charset="UTF-8" pattern="%d %t [%p] - [%l] - %m%n"/>
+            <!-- 拆分规则 -->
+            <Policies>
+                <!-- 在系统启动时，触发拆分规则，生成新的文件 -->
+                <OnStartupTriggeringPolicy />
+                <!-- 按照文件大小拆分 -->
+                <SizeBasedTriggeringPolicy size="100KB" />
+                <!-- 按照时间节点拆分，规则根据 filePattern -->
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+
+            <!-- 限定在同一个目录下的文件个数  30 超过覆盖-->
+            <DefaultRolloverStrategy max="30" />
+        </RollingFile>
+
+        <!-- 随机读写拆分日志文件 -->
+        <RollingRandomAccessFile name="rollAccessFile" fileName="${LOG_HOME}/roll_access_log4j2.log"
+                                 filePattern="${LOG_HOME}/%d{yyyy-MM-dd-HH-mm-ss}/roll_access_log4j2.%i.log">
+            <!-- 只输出level及以下级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!-- 输出日志的格式 -->
+            <PatternLayout charset="UTF-8" pattern="%d %t [%p] - [%l] - %m%n"/>
+            <!-- 拆分规则 -->
+            <Policies>
+                <!-- 在系统启动时，触发拆分规则，生成新的文件 -->
+                <OnStartupTriggeringPolicy />
+                <!-- 按照文件大小拆分 -->
+                <SizeBasedTriggeringPolicy size="100KB" />
+                <!-- 按照时间节点拆分，规则根据 filePattern -->
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+
+            <!-- 限定在同一个目录下的文件个数  30 超过覆盖-->
+            <DefaultRolloverStrategy max="30" />
+        </RollingRandomAccessFile>
+
+
+        <!-- 异步实现：AsyncAppender-->
+        <Async name="async">
+            <AppenderRef ref="file" />
+        </Async>
+    </Appenders>
+
+    <Loggers>
+        <!--
+            自定义异步 logger 对象
+                 includeLocation="false"    关闭日志记录行号，开启会影响应能
+                 additivity="false"         不继承 RootLogger 对象
+        -->
+        <AsyncLogger name="com.beloved" level="trace" includeLocation="false" additivity="false">
+            <AppenderRef ref="console" />
+        </AsyncLogger>
+
+        <!--
+            根节点
+                level：日志级别
+        -->
+        <Root level="trace">
+            <!-- 指定日志处理器 -->
+            <AppenderRef ref="console" />
+            <AppenderRef ref="file" />
+            <AppenderRef ref="accessFile" />
+            <AppenderRef ref="rollFile" />
+            <AppenderRef ref="rollAccessFile" />
+
+            <!-- 使用异步 Appender -->
+            <AppenderRef ref="async" />
+        </Root>
+    </Loggers>
+</Configuration>
