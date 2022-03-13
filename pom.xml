@@ -11,6 +11,7 @@
     <modules>
         <module>java_concurrent</module>
         <module>java_logger</module>
+        <module>SpringSecurity</module>
     </modules>
 
     <properties>
