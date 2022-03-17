@@ -18,6 +18,7 @@
         <module>slf4j_demo</module>
         <module>logback_demo</module>
         <module>log4j2_demo</module>
+        <module>spring_boot_demo</module>
     </modules>
 
     <properties>
