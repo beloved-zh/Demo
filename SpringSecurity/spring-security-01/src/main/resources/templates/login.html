@@ -5,7 +5,8 @@
     <title>用户登录</title>
 </head>
 <body style="text-align: center">
-
+<h5 style="color: red" th:text="${'request：' + SPRING_SECURITY_LAST_EXCEPTION}"></h5>
+<h5 style="color: red" th:text="${'session：' + session.SPRING_SECURITY_LAST_EXCEPTION}"></h5>
 <h1>用户登录</h1>
 <form th:action="@{/doLogin}" method="post">
     用户名：<input type="text" name="uname"> <br>
