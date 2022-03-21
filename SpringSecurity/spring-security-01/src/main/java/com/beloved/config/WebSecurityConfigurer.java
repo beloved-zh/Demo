@@ -2,9 +2,12 @@ package com.beloved.config;
 
 import com.beloved.handler.MyAuthenticationFailureHandler;
 import com.beloved.handler.MyAuthenticationSuccessHandler;
+import com.beloved.handler.myLogoutSuccessHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
 
 @Configuration
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
@@ -26,6 +29,18 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                 //.failureForwardUrl("/login.html") // 认证失败后跳转 forward   异常信息作用域 request
                 //.failureUrl("/login.html") // 认证失败后跳转 redirect 异常信息作用域 session
                 .failureHandler(new MyAuthenticationFailureHandler())   // 自定义认证失败后处理
+                .and()
+                .logout() // 开启注销登录，获取到注销登录的对象
+                //.logoutUrl("/logout") // 指定注销登录 url 默认必须 GET
+                // 配置多个注销登录
+                .logoutRequestMatcher(new OrRequestMatcher(
+                        new AntPathRequestMatcher("/logout", "GET"),
+                        new AntPathRequestMatcher("/abc", "POST")
+                ))
+                .invalidateHttpSession(true) // session 会话失效  默认：true
+                .clearAuthentication(true) // 清除认证标记  默认：true
+                //.logoutSuccessUrl("/login.html") // 注销登录成功后跳转地址
+                .logoutSuccessHandler(new myLogoutSuccessHandler())  // 自定义注销登录成功后处理
                 .and()
                 .csrf().disable()   // 禁止 csrf 跨站请求攻击保护
         ;
