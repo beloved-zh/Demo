@@ -3,14 +3,49 @@ package com.beloved.config;
 import com.beloved.handler.MyAuthenticationFailureHandler;
 import com.beloved.handler.MyAuthenticationSuccessHandler;
 import com.beloved.handler.myLogoutSuccessHandler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 
 @Configuration
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
+
+    // 如果使用的是默认创建的 AuthenticationManager ，检测到 UserDetailsService 将自动使用
+    @Bean
+    public UserDetailsService userDetailsService() {
+        InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
+        userDetailsService.createUser(User.withUsername("abc").password("{noop}123").roles("admin").build());
+        return userDetailsService;
+    }
+
+    // SpringBoot 对 Security 默认配置中在工厂创建 AuthenticationManager
+//    @Autowired
+//    public void initialize(AuthenticationManagerBuilder builder) {
+//        System.out.println("SpringBoot 自动配置：" + builder);
+//    }
+
+    // 完全自定义 AuthenticationManager    不会在工厂中暴露
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        System.out.println("自定义AuthenticationManager：" + auth);
+        auth.userDetailsService(userDetailsService());
+    }
+
+    // 将 AuthenticationManager 暴露在工厂中，在其余地方可以注入使用
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
