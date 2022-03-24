@@ -10,9 +10,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 
@@ -20,12 +17,15 @@ import org.springframework.security.web.util.matcher.OrRequestMatcher;
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     // 如果使用的是默认创建的 AuthenticationManager ，检测到 UserDetailsService 将自动使用
-    @Bean
-    public UserDetailsService userDetailsService() {
-        InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
-        userDetailsService.createUser(User.withUsername("abc").password("{noop}123").roles("admin").build());
-        return userDetailsService;
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
+//        userDetailsService.createUser(User.withUsername("abc").password("{noop}123").roles("admin").build());
+//        return userDetailsService;
+//    }
+
+    @Autowired
+    private MyUserDetailsServer myUserDetailsServer;
 
     // SpringBoot 对 Security 默认配置中在工厂创建 AuthenticationManager
 //    @Autowired
@@ -37,7 +37,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         System.out.println("自定义AuthenticationManager：" + auth);
-        auth.userDetailsService(userDetailsService());
+        auth.userDetailsService(myUserDetailsServer);
     }
 
     // 将 AuthenticationManager 暴露在工厂中，在其余地方可以注入使用
