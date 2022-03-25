@@ -13,6 +13,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>spring-security-01</module>
+        <module>spring-security-web</module>
+        <module>spring-security-api</module>
     </modules>
 
     <properties>
