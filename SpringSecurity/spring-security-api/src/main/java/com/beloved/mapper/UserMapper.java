@@ -12,4 +12,7 @@ public interface UserMapper {
 
     // 根据用户id查询角色
     List<Role> getRolesByUid(Integer uid);
+
+    // 修改用户密码
+    Integer updatePassword(Integer uid, String password);
 }
