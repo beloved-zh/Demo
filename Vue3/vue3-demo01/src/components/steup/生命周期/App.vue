@@ -16,14 +16,18 @@ import {
   ref
 } from 'vue';
 
+// 生命周期钩子
 export default defineComponent({
   name: 'App',
   setup () {
+    // 在组件创建前执行
     console.log('setup')
+    // 没有this
     console.log('this==>', this)
 
     let number = ref(10)
 
+    // 生命周期钩子前面加上 `on` 来访问组件的生命周期钩子
     onBeforeMount(() => {
       console.log('onBeforeMount')
     })
