@@ -1,6 +1,6 @@
 <template>
   <h2>子组件</h2>
-  number：{{number}} <br><br>
+  number：{{number}} <br><br> 
 </template>
 
 <script setup lang="ts">
