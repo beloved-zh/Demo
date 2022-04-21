@@ -3,6 +3,9 @@ import App from './App.vue'
 // 引入 mitt
 import mitt from 'mitt'
 
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+
 const Mitt = mitt()
 
 const app = createApp(App)
@@ -31,5 +34,7 @@ app.config.globalProperties.$filters = {
     }
 }
 app.config.globalProperties.$userName = 'Beloved'
+
+app.use(ElementPlus)
 
 app.mount('#app')
