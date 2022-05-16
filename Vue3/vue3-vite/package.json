@@ -12,6 +12,7 @@
     "@vueuse/core": "^8.3.0",
     "element-plus": "^2.1.10",
     "mitt": "^3.0.0",
+    "pinia": "^2.0.14",
     "vue": "^3.2.25"
   },
   "devDependencies": {

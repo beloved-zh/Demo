@@ -1,15 +1,11 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-// 引入 mitt
-import mitt from 'mitt'
-
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
-
-const Mitt = mitt()
 
 const app = createApp(App)
 
+// 引入 mitt
+import mitt from 'mitt'
+const Mitt = mitt()
 
 type Filter = {
     format: <T extends any>(str: T) => T
@@ -35,6 +31,15 @@ app.config.globalProperties.$filters = {
 }
 app.config.globalProperties.$userName = 'Beloved'
 
+// ElementPlus
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
 app.use(ElementPlus)
+
+// pinia
+import { createPinia } from 'pinia'
+const store = createPinia()
+app.use(store)
+
 
 app.mount('#app')
