@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-  import { useTestStore } from '@store/index'
+  import { useTestStore } from './store/index'
   
   const store = useTestStore()
   

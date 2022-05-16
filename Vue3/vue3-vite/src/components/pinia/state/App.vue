@@ -9,8 +9,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from 'vue'
-  import { useTestStore } from '@store/index'
+  import { useTestStore } from './store/index'
   import {storeToRefs} from 'pinia'
   
   const store = useTestStore()
