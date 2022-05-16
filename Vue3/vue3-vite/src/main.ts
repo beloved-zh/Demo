@@ -44,5 +44,8 @@ store.use(piniaPlugin())
 
 app.use(store)
 
+import router from './router'
+app.use(router)
+
 
 app.mount('#app')
