@@ -37,8 +37,11 @@ import 'element-plus/dist/index.css'
 app.use(ElementPlus)
 
 // pinia
-import { createPinia } from 'pinia'
+import {createPinia} from 'pinia'
+import { piniaPlugin } from './store/piniaPlugin'
 const store = createPinia()
+store.use(piniaPlugin())
+
 app.use(store)
 
 
