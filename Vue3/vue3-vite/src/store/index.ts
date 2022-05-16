@@ -16,6 +16,8 @@ export const useTestStore = defineStore('TEST', {
     },
     // 等效于 方法，可以做同步异步
     actions: {
-        
+        addCount (num:number) {
+            this.count += num
+        }
     }
 })
