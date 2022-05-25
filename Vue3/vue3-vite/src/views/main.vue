@@ -10,6 +10,16 @@
       </template>
     </el-table-column>
   </el-table>
+  <el-card class="box-card ">
+    <template #header>
+      <div>
+        <span>子路由</span>
+        <router-link style="margin-left:10px;" to="/">childrenA</router-link>
+        <router-link style="margin-left:10px;" to="/childrenB">childrenB</router-link>
+      </div>
+    </template>
+    <router-view></router-view>
+  </el-card>
 </template>
 
 <script setup lang="ts">
@@ -30,7 +40,7 @@ const router = useRouter()
 const toQuery = (user: User) => {
   
   router.push({
-    path: "/setup",
+    path: "/setup-query",
     query: user
   })
   
