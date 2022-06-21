@@ -15,10 +15,10 @@ type Options = {
 
 const DEFAULT_KEY = 'app'
 
-const piniaPlugin = (options?: Options) => {
+const piniaPlugin = (options?: Options) => {   
     return (context: PiniaPluginContext) => {
         console.log('context', context)
-        const { store } = context
+        const  { store } = context
         const data = getStorage(`${options?.key ?? DEFAULT_KEY}-${store.$id}`)
         store.$subscribe(() => {
             setStorage(`${options?.key ?? DEFAULT_KEY}-${store.$id}`, toRaw(store.$state))

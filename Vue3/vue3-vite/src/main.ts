@@ -37,15 +37,14 @@ import 'element-plus/dist/index.css'
 app.use(ElementPlus)
 
 // pinia
-import {createPinia} from 'pinia'
-import { piniaPlugin } from './store/piniaPlugin'
-const store = createPinia()
-store.use(piniaPlugin())
-
-app.use(store)
+import pinia from './pinia/pinia'
+app.use(pinia)
 
 import router from './router'
 app.use(router)
 
+// 注册 store
+import { registerStore } from './store'
+registerStore()
 
 app.mount('#app')

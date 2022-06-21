@@ -1,70 +1,55 @@
 import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
+import store from '../store/index'
 
-const routes: Array<RouteRecordRaw> = [{
-    path: '/',
-    alias: ['/mian', '/mian1', '/main2'],
-    component: () => import('@views/main.vue'),
-    // 字符串
-    // redirect: '/childrenA',
-    // 对象形式
-    // redirect: {
-    //   // path: '/childrenA'
-    //   // name: 'childrenA'
-    // },
-    // 函数形式
-    redirect: (to) => {
-        console.log('to', to)
-        
-        // 返回字符串
-        // return '/childrenA'
-        // 返回对象
-        return {
-            path: '/childrenA',
-            query: to.query
+declare module 'vue-router' {
+    interface RouteMeta {
+        title: string
+    }
+}
+
+const routes: Array<RouteRecordRaw> = [
+    {
+        path: '/',
+        component: () => import('@views/Login.vue'),
+        meta: {
+            title: '登录'
         }
     },
-    children: [
-        {
-            path: '/childrenA',
-            name: 'childrenA',
-            component: () => import('@views/childrenA.vue')
-        },
-        {
-            path: '/childrenB',
-            name: 'childrenB',
-            component: () => import('@views/childrenB.vue')
+    {
+        path: '/userInfo',
+        component: () => import('@views/UserInfo.vue'),
+        meta: {
+            title: '个人信息'
         }
-    ]
-},{
-    path: '/setup-query',
-    name: 'SetupQuery',
-    component: () => import('@views/setup.vue')
-},{
-    path: '/setup/:id/:userName/:sex/:age',
-    name: 'Setup',
-    component: () => import('@views/setup.vue')
-},{
-    path: '/root',
-    component: () => import('@views/root.vue'),
-    children: [
-        {
-            path: '',
-            components: {
-                default: () => import('@views/main.vue'),
-                header: () => import('@views/header.vue'),
-                bottom: () => import('@views/bottom.vue')
-            }
-        }
-    ]
-}]
+    }
+]
 
-
-// history  =>  createWebHistory
-// hash     =>  createWebHashHistory  
-// abstact  =>  createMemoryHistory
 const router = createRouter({
     history: createWebHistory(),
     routes
+})
+
+/**
+ * 路由前置守卫
+ *  to：目标路由
+ *  from：当前路由
+ *  next()：放行路由跳转
+ *  next(false)：阻止路由跳转
+ *  next('/')
+ */
+router.beforeEach((to, from, next) => {
+    document.title = to.meta.title
+    if(to.path === '/' || store.userStore.loginUser.username) {
+        next()
+    } else {
+        next('/')
+    }
+})
+
+router.afterEach((to, from) => {
+    console.log('路由后置守卫');
+    console.log(to);
+    console.log(from);
 })
 
 //导出router
