@@ -52,11 +52,61 @@
         formRef.value?.validate((valid, fields) => {
             if (valid) {
                 store.userStore.LoginUser(form)
+                initRouter()
                 router.push('/userInfo')
             } else {
                 console.log('error submit!', fields)
             }
         })
+    }
+
+    const initRouter = () => {
+        const adminData = [
+            {
+                path: '/demo01',
+                name: 'demo01',
+                component: 'demo01.vue'
+            },
+            {
+                path: '/demo02',
+                name: 'demo02',
+                component: 'demo02.vue'
+            },
+            {
+                path: '/demo03',
+                name: 'demo03',
+                component: 'demo03.vue'
+            }
+        ]
+
+        const userData = [
+            {
+                path: '/demo01',
+                name: 'demo01',
+                component: 'demo01.vue'
+            }
+        ]
+
+        if(form.username === 'admin') {
+            adminData.forEach(item => {
+                router.addRoute({
+                    path: item.path,
+                    name: item.name,
+                    component: () => import(`../views/${item.component}`)
+                })
+            })  
+        } else {
+            userData.forEach(item => {
+                router.addRoute({
+                    path: item.path,
+                    name: item.name,
+                    component: () => import(`../views/${item.component}`)
+                })
+            })  
+        }
+
+        console.log('---', router.getRoutes());
+        
     }
 </script>
 

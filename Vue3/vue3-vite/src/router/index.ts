@@ -3,7 +3,8 @@ import store from '../store/index'
 
 declare module 'vue-router' {
     interface RouteMeta {
-        title: string
+        title: string,
+        transition: string
     }
 }
 
@@ -12,14 +13,16 @@ const routes: Array<RouteRecordRaw> = [
         path: '/',
         component: () => import('@views/Login.vue'),
         meta: {
-            title: '登录'
+            title: '登录',
+            transition: 'animate__rubberBand'
         }
     },
     {
         path: '/userInfo',
         component: () => import('@views/UserInfo.vue'),
         meta: {
-            title: '个人信息'
+            title: '个人信息',
+            transition: 'animate__rubberBand'
         }
     }
 ]
