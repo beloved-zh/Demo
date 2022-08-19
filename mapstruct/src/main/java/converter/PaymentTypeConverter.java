@@ -36,8 +36,8 @@ public interface PaymentTypeConverter {
      * @param paymentType
      * @return
      */
-    @ValueMapping(source = MappingConstants.ANY_REMAINING, target = "CARD")
-    PaymentTypeView paymentTypeToPaymentTypeView2(PaymentType paymentType);
+//    @ValueMapping(source = MappingConstants.ANY_REMAINING, target = "CARD")
+//    PaymentTypeView paymentTypeToPaymentTypeView2(PaymentType paymentType);
 
     /**
      * MappingConstants.ANY_UNMAPPED
@@ -45,9 +45,9 @@ public interface PaymentTypeConverter {
      * @param paymentType
      * @return
      */
-    @ValueMappings({
-        @ValueMapping(source = "CHEQUE", target = "CHEQUE"),
-        @ValueMapping(source = MappingConstants.ANY_UNMAPPED, target = "CARD")
-    })
-    PaymentTypeView paymentTypeToPaymentTypeView3(PaymentType paymentType);
+//    @ValueMappings({
+//        @ValueMapping(source = "CHEQUE", target = "CHEQUE"),
+//        @ValueMapping(source = MappingConstants.ANY_UNMAPPED, target = "CARD")
+//    })
+//    PaymentTypeView paymentTypeToPaymentTypeView3(PaymentType paymentType);
 }
